@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>School List</title>
+</head>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    th, td {
+        border-bottom: 1px solid #ddd;
+        padding: 10px 5px;
+        text-align: left;
+    }
+</style>
+<body>
+<h3>School</h3>
+<a href="/safe">Nouveau code</a>
+<br><br>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom du site</th>
+        <th>Mot de passe</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="safe : ${safes}">
+        <td th:text="${safe.id}">id</td>
+        <td th:text="${safe.webSite}">Nom du site</td>
+        <td th:text="${safe.word}">Mot de passe</td>
+        
+        <td><a th:href="@{/safe(id=${safe.id})}">Edit</a></td>
+        <td><a th:href="@{/safe/delete(id=${safe.id})}">Remove</a></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<a href="/">Return to the index</a>
+</body>
+</html>
