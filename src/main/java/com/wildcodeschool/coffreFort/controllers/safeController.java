@@ -1,62 +1,43 @@
 package com.wildcodeschool.coffreFort.controllers;
 
-
+import com.wildcodeschool.coffreFort.entity.Safe;
 //quand on est connecté
 import com.wildcodeschool.coffreFort.repository.SafeRepository;
-import com.wildcodeschool.coffreFort.entity.Safe;
-
+import com.wildcodeschool.coffreFort.repository.UserRepository;
+import com.wildcodeschool.coffreFort.entity.User;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
-
-
-@Controller
+@RestController
 public class SafeController {
 
-    @Autowired
-    private SafeRepository repository;
+  @Autowired
+  private SafeRepository SafeRepository;
 
-    @GetMapping("/safes")
-    public String getAll(Model model) {
-        model.addAttribute("safe", repository.findAll());
-        return "safe";
-    }
+  @Autowired
+  private UserRepository userRepository;
 
-    @GetMapping("/safe")
-    public String getSafe(Model model,
-                            @RequestParam(required = false) Long id) {
-        Safe safe = new Safe();
-        if (id != null) {
-            Optional<Safe> optionalSafe = repository.findById(id);
-            if (optionalSafe.isPresent()) {
-                safe = optionalSafe.get();
-            }
-        }
-        model.addAttribute("safe", safe);
-
-        return "safe";
-    }
-
-    @PostMapping("/safe")
-    public String postSafe(@ModelAttribute Safe safe){
-        repository.save(safe);
-
-     return "redirect:/safes";
-    }
+  @GetMapping("/safes")
+  public List<Safe> getSafes() {
+    List<Safe> safes = SafeRepository.findAll();
+    return safes;
+  }
 
 
-   @GetMapping("/safe/delete")
-    public String deleteSafe(@RequestParam Long id) {
-        repository.deleteById(id);
-
-        return "redirect:/safes";
-    }
+  @PostMapping("/safe/{userId}")
+  public Safe create(@RequestBody Safe safe, @PathVariable Long userId) {
+    User user = userRepository.findById(userId).get();
+    safe.setUser(user);
+    return SafeRepository.save(safe);
+  }
 }
-
-

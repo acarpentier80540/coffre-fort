@@ -1,6 +1,6 @@
-
 package com.wildcodeschool.coffreFort.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,59 +12,50 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class Safe {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String webSite;
-    private String word;
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "user_id")
-    private User user;
+  private String webSite;
+  private String word;
 
-    public Safe() {  }
+  @JsonIgnore
+  @ManyToOne
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    public Safe(String webSite, String word) {
-        this.setName(webSite);
-        this.setWord(word);
-       ;
-    }
+  public Safe() {}
 
-    public Safe(Long id, String webSite, String word) {
-        this.setId(id);
-        this.setName(webSite);
-        this.setWord(word);
-       
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public Long getId() {
-        return id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public String getWebSite() {
+    return webSite;
+  }
 
-    public String getName() {
-        return webSite;
-    }
+  public void setWebSite(String webSite) {
+    this.webSite = webSite;
+  }
 
-    public void setName(String webSite) {
-        this.webSite = webSite;
-    }
+  public String getWord() {
+    return word;
+  }
 
-    public String getWord() {
-        return word;
-    }
+  public void setWord(String word) {
+    this.word = word;
+  }
 
-    public void setWord(String word) {
-        this.word = word;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public User getUser() {return user; }
-
-    public void setUser(User user) { this.user = user; }
+  public void setUser(User user) {
+    this.user = user;
+  }
 }
-
-
