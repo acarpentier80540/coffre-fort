@@ -21,6 +21,9 @@ public class User {
     @Column(nullable = false) 
     private String password;
 
+    @OneToMany(mappedBy = "user")
+    private List<Safe> safes;
+
     public User() {  }
 
     public User(String username, String password) {
@@ -57,6 +60,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+    public List<Safe> getSafes() { return safes; }
 
+    public void setSafe(List<Safe> safes) { this.safes = safes; }
 }
 
