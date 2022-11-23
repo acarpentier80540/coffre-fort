@@ -24,7 +24,7 @@ return new BCryptPasswordEncoder();
 public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
     http    .csrf().disable()
             .authorizeRequests()
-            .mvcMatchers("/", "/user", "/safes").permitAll()
+            .mvcMatchers("/", "/user", "/safes", "/safe").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
