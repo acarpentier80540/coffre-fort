@@ -24,12 +24,13 @@ return new BCryptPasswordEncoder();
 public SecurityFilterChain filterChain(@NotNull HttpSecurity http) throws Exception {
     http    .csrf().disable()
             .authorizeRequests()
-            .mvcMatchers("/", "/user", "/safes", "/safe").permitAll()
+            .mvcMatchers("/", "/user").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
             .and()
             .httpBasic();
+     http.cors();
 
     return http.build();
 }
